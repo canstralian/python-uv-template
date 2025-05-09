@@ -1,0 +1,16 @@
+[project]
+name = "myproject"
+version = "0.1.0"
+description = "A Python project using uv, GitHub Actions, and Spaces CI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+dependencies = [
+    "requests",
+    "ruff",
+    "pytest"
+]
+
+[tool.uv]
+dev-dependencies = ["pytest", "pytest-cov"]
+
+[tool.ruff]
+line-length = 88
