@@ -21,14 +21,25 @@ jobs:
         python-version: "3.11"
 
     - name: Install uv
-      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      run: |
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH # Add uv to PATH for subsequent steps
+
+    # --- FIX START ---
+    # Add a step to create a virtual environment
+    - name: Create Virtual Environment
+      run: uv venv
+    # --- FIX END ---
 
     - name: Install project dependencies
       run: |
-        export PATH="$HOME/.cargo/bin:$PATH"
+        # uv commands automatically use the .venv created in the previous step
         uv pip install -e .
 
     - name: Run tests
       run: |
+        # Install pytest into the virtual environment
         uv pip install pytest
-        pytest tests/
+        # Run pytest using uv run to ensure it uses the venv
+        uv run pytest tests/
+
